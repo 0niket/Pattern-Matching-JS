@@ -1,10 +1,6 @@
 (function () {
-
-  // @FIX: Use symbol instead of string
-  const WILDCARD = "wildcard";
-  const TRUTHY = "truthy";
-  const FALSY = "falsy";
-    
+  const {WILDCARD, TRUTHY, FALSY} = require ("./commons/symbols.js").symbols;
+  
   /**
    * Is Object.
    * A method to check if given value is an object.
