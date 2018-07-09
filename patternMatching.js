@@ -1,47 +1,19 @@
 (function () {
   const {WILDCARD, TRUTHY, FALSY} = require ("./commons/symbols.js").symbols;
-  
-  /**
-   * Is Object.
-   * A method to check if given value is an object.
-   * Returns false if it's premitive, array or function.
-   */
-  var isObject = function (obj) {
-    return Object.prototype.toString.call (obj) === "[object Object]";
-  };
-
-  var isArray = function (arr) {
-    return arr instanceof Array;
-  };
-
-  var matchObject = function (subject, match) {
-    return Object.keys (subject)
-                 .every ((key) => subject [key] === match [key]);
-  };
-
-  var matchArray = function (subject, match) {
-    return subject.every ((val, i) => val === match [i]);
-  };
-
-  var isWildcard = function (match) {
-    return match === WILDCARD;
-  };
-
-  var isTruthy = function (match) {
-    return match === TRUTHY;
-  };
-
-  var matchTruthy = function (subject) {
-    return [false, null, undefined, 0, NaN, ""].indexOf (subject) === -1;
-  }
-
-  var isFalsy = function (match) {
-    return match === FALSY;
-  };
-
-  var matchFalsy = function (subject) {
-    return matchTruthy (subject) === false;
-  };
+  const {predicates, matchMakers} = require ("./commons/helpers.js");
+  const {
+    isObject,
+    isArray,
+    isWildcard,
+    isTruthy,
+    isFalsy
+  } = predicates;
+  const {
+    matchObject,
+    matchArray,
+    matchTruthy,
+    matchFalsy
+  } = matchMakers;
 
   var match = function (subject, ...matches) {
     for (let i = 0; i < matches.length; i++) {
