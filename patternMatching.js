@@ -5,8 +5,8 @@
     FALSY,
     INSTANCE_OF,
     SHAPE
-  } = require ("./commons/symbols.js").symbols;
-  const {predicates, matchMakers} = require ("./commons/helpers.js");
+  } = require ("./constants/signature.js").symbols;
+  const {predicates, matchMakers} = require ("./helpers.js");
   const {
     isArray,
     isWildcard,

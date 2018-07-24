@@ -4,7 +4,7 @@ const {
   FALSY,
   INSTANCE_OF,
   SHAPE
-} = require ("./symbols.js").symbols;
+} = require ("/constants/signature.js").symbols;
 
 const _isObject = function (obj) {
   return Object.prototype.toString.call (obj) === "[object Object]";
