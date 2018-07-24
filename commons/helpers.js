@@ -1,7 +1,21 @@
-const {WILDCARD, TRUTHY, FALSY} = require ("./symbols.js").symbols;
+const {
+  WILDCARD,
+  TRUTHY,
+  FALSY,
+  INSTANCE_OF,
+  SHAPE
+} = require ("./symbols.js").symbols;
 
-const isObject = function (obj) {
+const _isObject = function (obj) {
   return Object.prototype.toString.call (obj) === "[object Object]";
+};
+
+const isShapeOfCase = function (match) {
+  return match.signature === SHAPE;
+};
+
+const isInstanceOfCase = function (match) {
+  return match.signature === INSTANCE_OF;
 };
 
 const isArray = function (arr) {
@@ -20,12 +34,26 @@ const isFalsy = function (match) {
   return match === FALSY;
 };
 
-const matchObject = function (subject, match) {
+const matchShape = function (subject, match) {
+  // This code block assumes that each match is of type object.
+  // This shallowly verifies the match with subject
+  // Code assumes that total number of keys in subject are same
+  // as total number of keys in match.
+  const object = match ();
   return Object.keys (subject)
-               .every ((key) => subject [key] === match [key]);
+               .every ((key) => subject [key] === object [key]);
+};
+
+const matchInstance = function (subject, match) {
+  const className = match ();
+  return subject instanceof className;
 };
 
 const matchArray = function (subject, match) {
+  // This code block assumes that each match is instance of Array.
+  // This shallowly verifies the match with subject.
+  // Code assumes that total number of keys in subject are same
+  // as total number of keys in match.
   return subject.every ((val, i) => val === match [i]);
 };
 
@@ -38,7 +66,8 @@ const matchFalsy = function (subject) {
 };
 
 exports.predicates = {
-  isObject,
+  isShapeOfCase,
+  isInstanceOfCase,
   isArray,
   isWildcard,
   isTruthy,
@@ -46,7 +75,8 @@ exports.predicates = {
 };
 
 exports.matchMakers = {
-  matchObject,
+  matchShape,
+  matchInstance,
   matchArray,
   matchTruthy,
   matchFalsy
