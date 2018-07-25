@@ -48,6 +48,33 @@
   match.any = WILDCARD;
   match.truthy = TRUTHY;
   match.falsy = FALSY;
+
+  // @TODO: Implement functionality for below identifiers
+  match.array = ARRAY;
+  match.bool = BOOL;
+  match.function = FUNCTION;
+  match.number = NUMBER;
+  match.object = OBJECT;
+  match.string = STRING;
+  match.symbol = SYMBOL;
+  match.domNode = DOM_NODE;
+  match.reactElement = REACT_ELEMENT;
+
+  // @TODO: Implement
+  // @TODO: Write generator function instead of repeating code
+  match.oneOf = function (values) {
+    const _oneOf = () => values;
+    _oneOf.signature = ONE_OF;
+    return _oneOf;
+  };
+
+  // @TODO: Implement
+  match.oneOfType = function (types) {
+    const _oneOfType = () => types;
+    _oneOfType.signature = ONE_OF_TYPE;
+    return _oneOfType;
+  };
+  
   match.instanceOf = function (className) {
     const _instanceOf = () => className;
     _instanceOf.signature = INSTANCE_OF;
@@ -60,10 +87,32 @@
     return _shape;
   };
 
-  match.arrayOf = function (array) {
-    const _arrayOf = () => array;
+  // @TODO: Make changes as api has changed
+  match.arrayShape = function (array) {
+    const _arrayShape = () => array;
+    _arrayShape.signature = ARRAY_SHAPE;
+    return _arrayShape;
+  };
+
+  // @TODO: Implement
+  match.objectOf = function (type) {
+    const _objectOf = () => type;
+    _objectOf.signature = OBJECT_OF;
+    return _objectOf;
+  };
+
+  // @TODO: Implement
+  match.arrayOf = function (type) {
+    const _arrayOf = () => type;
     _arrayOf.signature = ARRAY_OF;
     return _arrayOf;
+  };
+
+  // @TODO: Implement
+  match.customMatch = function (fn) {
+    const _customMatch = () => fn;
+    _customMatch.signature = CUSTOM_MATCH;
+    return _customMatch;
   };
 
   exports.match = match;
