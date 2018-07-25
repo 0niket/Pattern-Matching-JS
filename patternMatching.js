@@ -4,14 +4,15 @@
     TRUTHY,
     FALSY,
     INSTANCE_OF,
-    SHAPE
+    SHAPE,
+    ARRAY_OF
   } = require ("./constants/signature.js").symbols;
   const {predicates, matchMakers} = require ("./helpers.js");
   const {
-    isArray,
-    isWildcard,
-    isTruthy,
-    isFalsy,
+    isArrayOfCase,
+    isWildcardCase,
+    isTruthyCase,
+    isFalsyCase,
     isShapeOfCase,
     isInstanceOfCase
   } = predicates;
@@ -26,13 +27,13 @@
   var match = function (subject, ...matches) {
     for (let i = 0; i < matches.length; i++) {
       const {match, action} = matches [i];
-      
+
       if (
-        (isWildcard (match)) ||
-        (isTruthy (match) && matchTruthy (subject)) ||
-        (isFalsy (match) && matchFalsy (subject)) ||
+        (isWildcardCase (match)) ||
+        (isTruthyCase (match) && matchTruthy (subject)) ||
+        (isFalsyCase (match) && matchFalsy (subject)) ||
         (isInstanceOfCase (match) && matchInstance (subject, match)) ||
-        (isArray (subject) && matchArray (subject, match)) ||
+        (isArrayOfCase (match) && matchArray (subject, match)) ||
         (isShapeOfCase (match) && matchShape (subject, match)) ||
         (subject === match)
       ) {
@@ -57,6 +58,12 @@
     const _shape = () => object;
     _shape.signature = SHAPE;
     return _shape;
+  };
+
+  match.arrayOf = function (array) {
+    const _arrayOf = () => array;
+    _arrayOf.signature = ARRAY_OF;
+    return _arrayOf;
   };
 
   exports.match = match;
