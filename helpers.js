@@ -1,10 +1,31 @@
 const {
+  // Identifier signatures
   WILDCARD,
   TRUTHY,
   FALSY,
   INSTANCE_OF,
   SHAPE,
   ARRAY_OF
+  ARRAY,
+  BOOL,
+  FUNCTION,
+  NUMBER,
+  OBJECT,
+  STRING,
+  SYMBOL,
+  DOM_NODE,
+  REACT_ELEMENT,
+
+  // Match function signatures
+  ONE_OF,
+  ONE_OF_TYPE,
+  INSTANCE_OF,
+  SHAPE,
+  ARRAY_SHAPE,
+  OBJECT_OF,
+  ARRAY_OF,
+  CUSTOM_MATCH,
+  HOOK_MATCH_FN
 } = require ("./constants/signature.js").symbols;
 
 const _isObject = function (obj) {
