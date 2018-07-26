@@ -62,58 +62,34 @@
 
   // @TODO: Implement
   // @TODO: Write generator function instead of repeating code
-  match.oneOf = function (values) {
-    const _oneOf = () => values;
-    _oneOf.signature = ONE_OF;
-    return _oneOf;
+  const matchFnGenerator = function (signature) {
+    return function (param) {
+      const _fn = () => param;
+      _fn.signature = signature;
+      return _fn;
+    };
   };
+  
+  match.oneOf = matchFnGenerator (ONE_OF);
 
   // @TODO: Implement
-  match.oneOfType = function (types) {
-    const _oneOfType = () => types;
-    _oneOfType.signature = ONE_OF_TYPE;
-    return _oneOfType;
-  };
+  match.oneOfType = matchFnGenerator (ONE_OF_TYPE);
   
-  match.instanceOf = function (className) {
-    const _instanceOf = () => className;
-    _instanceOf.signature = INSTANCE_OF;
-    return _instanceOf;
-  };
+  match.instanceOf = matchFnGenerator (INSTANCE_OF);
   
-  match.shape = function (object) {
-    const _shape = () => object;
-    _shape.signature = SHAPE;
-    return _shape;
-  };
+  match.shape = matchFnGenerator (SHAPE);
 
   // @TODO: Make changes as api has changed
-  match.arrayShape = function (array) {
-    const _arrayShape = () => array;
-    _arrayShape.signature = ARRAY_SHAPE;
-    return _arrayShape;
-  };
+  match.arrayShape = matchFnGenerator (ARRAY_SHAPE);
 
   // @TODO: Implement
-  match.objectOf = function (type) {
-    const _objectOf = () => type;
-    _objectOf.signature = OBJECT_OF;
-    return _objectOf;
-  };
+  match.objectOf = matchFnGenerator (OBJECT_OF);
 
   // @TODO: Implement
-  match.arrayOf = function (type) {
-    const _arrayOf = () => type;
-    _arrayOf.signature = ARRAY_OF;
-    return _arrayOf;
-  };
+  match.arrayOf = matchFnGenerator (ARRAY_OF);
 
   // @TODO: Implement
-  match.customMatch = function (fn) {
-    const _customMatch = () => fn;
-    _customMatch.signature = CUSTOM_MATCH;
-    return _customMatch;
-  };
+  match.customMatch = matchFnGenerator (CUSTOM_MATCH);
 
   exports.match = match;
 } ());
