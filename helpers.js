@@ -3,9 +3,6 @@ const {
   WILDCARD,
   TRUTHY,
   FALSY,
-  INSTANCE_OF,
-  SHAPE,
-  ARRAY_OF
   ARRAY,
   BOOL,
   FUNCTION,
@@ -48,6 +45,10 @@ const isArrayOfCase = function (match) {
   return match.signature === ARRAY_OF;
 };
 
+const isArrayShapeOfCase = function (match) {
+  return match.signature === ARRAY_SHAPE;
+};
+
 const isWildcardCase = function (match) {
   return match === WILDCARD;
 };
@@ -58,6 +59,18 @@ const isTruthyCase = function (match) {
 
 const isFalsyCase = function (match) {
   return match === FALSY;
+};
+
+const isArrayCase = function (match) {
+  return match === ARRAY;
+};
+
+const isBoolCase = function (match) {
+  return match === BOOL;
+};
+
+const isFunctionCase = function (match) {
+  return match === FUNCTION;
 };
 
 const matchShape = function (subject, match) {
@@ -75,7 +88,7 @@ const matchInstance = function (subject, match) {
   return subject instanceof className;
 };
 
-const matchArray = function (subject, match) {
+const matchArrayShape = function (subject, match) {
   // This code block assumes that each match is instance of Array.
   // This shallowly verifies the match with subject.
   // Code assumes that total number of keys in subject are same
@@ -90,21 +103,40 @@ const matchFalsy = function (subject) {
 
 const matchTruthy = function (subject) {
   return matchFalsy (subject) === false;
+};
+
+const matchArrayInstance = function (subject) {
+  return Array.isArray (subject);
+};
+
+const matchBoolInstance = function (subject) {
+  return (subject === true || subject === false);
+};
+
+const matchFunctionInstance = function (subject) {
+  return subject instanceof Function;
 }
+
 
 exports.predicates = {
   isShapeOfCase,
   isInstanceOfCase,
-  isArrayOfCase,
+  isArrayShapeOfCase,
   isWildcardCase,
   isTruthyCase,
-  isFalsyCase
+  isFalsyCase,
+  isArrayCase,
+  isBoolCase,
+  isFunctionCase
 };
 
 exports.matchMakers = {
   matchShape,
   matchInstance,
-  matchArray,
+  matchArrayShape,
   matchTruthy,
-  matchFalsy
+  matchFalsy,
+  matchArrayInstance,
+  matchBoolInstance,
+  matchFunctionInstance
 };

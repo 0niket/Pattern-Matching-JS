@@ -4,9 +4,6 @@
     WILDCARD,
     TRUTHY,
     FALSY,
-    INSTANCE_OF,
-    SHAPE,
-    ARRAY_OF
     ARRAY,
     BOOL,
     FUNCTION,
@@ -28,22 +25,28 @@
     CUSTOM_MATCH,
     HOOK_MATCH_FN
   } = require ("./constants/signature.js").symbols;
-  
+
   const {predicates, matchMakers} = require ("./helpers.js");
   const {
-    isArrayOfCase,
+    isArrayShapeOfCase,
     isWildcardCase,
     isTruthyCase,
     isFalsyCase,
+    isFunctionCase,
     isShapeOfCase,
-    isInstanceOfCase
+    isInstanceOfCase,
+    isArrayCase,
+    isBoolCase
   } = predicates;
   const {
     matchShape,
     matchInstance,
-    matchArray,
+    matchArrayShape,
     matchTruthy,
-    matchFalsy
+    matchFalsy,
+    matchArrayInstance,
+    matchBoolInstance,
+    matchFunctionInstance
   } = matchMakers;
 
   var match = function (subject, ...matches) {
@@ -54,8 +57,11 @@
         (isWildcardCase (match)) ||
         (isTruthyCase (match) && matchTruthy (subject)) ||
         (isFalsyCase (match) && matchFalsy (subject)) ||
+        (isArrayCase (match) && matchArrayInstance (subject)) ||
+        (isBoolCase (match) && matchBoolInstance (subject)) ||
+        (isFunctionCase (match) && matchFunctionInstance (subject)) ||
         (isInstanceOfCase (match) && matchInstance (subject, match)) ||
-        (isArrayOfCase (match) && matchArray (subject, match)) ||
+        (isArrayShapeOfCase (match) && matchArrayShape (subject, match)) ||
         (isShapeOfCase (match) && matchShape (subject, match)) ||
         (subject === match)
       ) {
@@ -70,11 +76,11 @@
   match.any = WILDCARD;
   match.truthy = TRUTHY;
   match.falsy = FALSY;
-
-  // @TODO: Implement functionality for below identifiers
   match.array = ARRAY;
   match.bool = BOOL;
   match.function = FUNCTION;
+
+  // @TODO: Implement functionality for below identifiers
   match.number = NUMBER;
   match.object = OBJECT;
   match.string = STRING;
@@ -91,14 +97,14 @@
       return _fn;
     };
   };
-  
+
   match.oneOf = matchFnGenerator (ONE_OF);
 
   // @TODO: Implement
   match.oneOfType = matchFnGenerator (ONE_OF_TYPE);
-  
+
   match.instanceOf = matchFnGenerator (INSTANCE_OF);
-  
+
   match.shape = matchFnGenerator (SHAPE);
 
   // @TODO: Make changes as api has changed
