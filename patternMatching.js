@@ -111,7 +111,6 @@
 
   match.shape = matchFnGenerator (SHAPE);
 
-  // @TODO: Make changes as api has changed
   match.arrayShape = matchFnGenerator (ARRAY_SHAPE);
 
   // @TODO: Implement
