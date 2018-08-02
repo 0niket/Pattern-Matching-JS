@@ -33,6 +33,7 @@
     isTruthyCase,
     isFalsyCase,
     isFunctionCase,
+    isNumberCase,
     isShapeOfCase,
     isInstanceOfCase,
     isArrayCase,
@@ -46,7 +47,8 @@
     matchFalsy,
     matchArrayInstance,
     matchBoolInstance,
-    matchFunctionInstance
+    matchFunctionInstance,
+    matchNumberInstance
   } = matchMakers;
 
   var match = function (subject, ...matches) {
@@ -60,6 +62,7 @@
         (isArrayCase (match) && matchArrayInstance (subject)) ||
         (isBoolCase (match) && matchBoolInstance (subject)) ||
         (isFunctionCase (match) && matchFunctionInstance (subject)) ||
+        (isNumberCase (match) && matchNumberInstance (subject)) ||
         (isInstanceOfCase (match) && matchInstance (subject, match)) ||
         (isArrayShapeOfCase (match) && matchArrayShape (subject, match)) ||
         (isShapeOfCase (match) && matchShape (subject, match)) ||
@@ -79,9 +82,9 @@
   match.array = ARRAY;
   match.bool = BOOL;
   match.function = FUNCTION;
+  match.number = NUMBER;
 
   // @TODO: Implement functionality for below identifiers
-  match.number = NUMBER;
   match.object = OBJECT;
   match.string = STRING;
   match.symbol = SYMBOL;
