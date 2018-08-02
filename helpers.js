@@ -77,6 +77,10 @@ const isNumberCase = function (match) {
   return match === NUMBER;
 };
 
+const isObjectCase = function (match) {
+  return match === OBJECT;
+};
+
 const matchShape = function (subject, match) {
   // This code block assumes that each match is of type object.
   // This shallowly verifies the match with subject
@@ -125,6 +129,10 @@ const matchNumberInstance = function (subject) {
   return ((typeof subject === "number") && (!isNaN (subject)));
 };
 
+const matchObjectInstance = function (subject) {
+  return _isObject (subject);
+};
+
 
 exports.predicates = {
   isShapeOfCase,
@@ -136,7 +144,8 @@ exports.predicates = {
   isArrayCase,
   isBoolCase,
   isFunctionCase,
-  isNumberCase
+  isNumberCase,
+  isObjectCase
 };
 
 exports.matchMakers = {
@@ -148,5 +157,6 @@ exports.matchMakers = {
   matchArrayInstance,
   matchBoolInstance,
   matchFunctionInstance,
-  matchNumberInstance
+  matchNumberInstance,
+  matchObjectInstance
 };
