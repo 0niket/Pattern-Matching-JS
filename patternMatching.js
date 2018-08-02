@@ -94,8 +94,6 @@
   match.domNode = DOM_NODE;
   match.reactElement = REACT_ELEMENT;
 
-  // @TODO: Implement
-  // @TODO: Write generator function instead of repeating code
   const matchFnGenerator = function (signature) {
     return function (param) {
       const _fn = () => param;
