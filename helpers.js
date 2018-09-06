@@ -33,55 +33,7 @@ const _isArray = function (arr) {
   return arr instanceof Array;
 };
 
-const isShapeOfCase = function (match) {
-  return match.signature === SHAPE;
-};
-
-const isInstanceOfCase = function (match) {
-  return match.signature === INSTANCE_OF;
-};
-
-const isArrayOfCase = function (match) {
-  return match.signature === ARRAY_OF;
-};
-
-const isArrayShapeOfCase = function (match) {
-  return match.signature === ARRAY_SHAPE;
-};
-
-const isWildcardCase = function (match) {
-  return match === WILDCARD;
-};
-
-const isTruthyCase = function (match) {
-  return match === TRUTHY;
-};
-
-const isFalsyCase = function (match) {
-  return match === FALSY;
-};
-
-const isArrayCase = function (match) {
-  return match === ARRAY;
-};
-
-const isBoolCase = function (match) {
-  return match === BOOL;
-};
-
-const isFunctionCase = function (match) {
-  return match === FUNCTION;
-};
-
-const isNumberCase = function (match) {
-  return match === NUMBER;
-};
-
-const isObjectCase = function (match) {
-  return match === OBJECT;
-};
-
-const matchShape = function (subject, match) {
+const _matchShape = function (subject, match) {
   // This code block assumes that each match is of type object.
   // This shallowly verifies the match with subject
   // Code assumes that total number of keys in subject are same
@@ -91,12 +43,12 @@ const matchShape = function (subject, match) {
                .every ((key) => subject [key] === object [key]);
 };
 
-const matchInstance = function (subject, match) {
+const _matchInstance = function (subject, match) {
   const className = match ();
   return subject instanceof className;
 };
 
-const matchArrayShape = function (subject, match) {
+const _matchArrayShape = function (subject, match) {
   // This code block assumes that each match is instance of Array.
   // This shallowly verifies the match with subject.
   // Code assumes that total number of keys in subject are same
@@ -105,58 +57,50 @@ const matchArrayShape = function (subject, match) {
   return subject.every ((val, i) => val === array [i]);
 };
 
-const matchFalsy = function (subject) {
+const _matchFalsy = function (subject) {
   return [false, null, undefined, 0, NaN, ""].indexOf (subject) !== -1;
 };
 
-const matchTruthy = function (subject) {
-  return matchFalsy (subject) === false;
+const _matchTruthy = function (subject) {
+  return _matchFalsy (subject) === false;
 };
 
-const matchArrayInstance = function (subject) {
+const _matchArrayInstance = function (subject) {
   return Array.isArray (subject);
 };
 
-const matchBoolInstance = function (subject) {
+const _matchBoolInstance = function (subject) {
   return (subject === true || subject === false);
 };
 
-const matchFunctionInstance = function (subject) {
+const _matchFunctionInstance = function (subject) {
   return subject instanceof Function;
 };
 
-const matchNumberInstance = function (subject) {
+const _matchNumberInstance = function (subject) {
   return ((typeof subject === "number") && (!isNaN (subject)));
 };
 
-const matchObjectInstance = function (subject) {
+const _matchObjectInstance = function (subject) {
   return _isObject (subject);
 };
 
+const areSignatureAndTypeMatching = function (subject, match) {
+  const signature = match.signature || match;
 
-exports.predicates = {
-  isShapeOfCase,
-  isInstanceOfCase,
-  isArrayShapeOfCase,
-  isWildcardCase,
-  isTruthyCase,
-  isFalsyCase,
-  isArrayCase,
-  isBoolCase,
-  isFunctionCase,
-  isNumberCase,
-  isObjectCase
+  switch (signature) {
+    case WILDCARD: return true;
+    case TRUTHY: return _matchTruthy (subject);
+    case FALSY: return _matchFalsy (subject);
+    case ARRAY: return _matchArrayInstance (subject);
+    case BOOL: return _matchBoolInstance (subject);
+    case FUNCTION: return _matchFunctionInstance (subject);
+    case OBJECT: return _matchObjectInstance (subject);
+    case INSTANCE_OF: return _matchInstance (subject, match);
+    case ARRAY_OF: return _matchArrayShape (subject, match);
+    case OBJECT_OF: return _matchShape (signature, match);
+    default: return (subject === match);
+  }
 };
 
-exports.matchMakers = {
-  matchShape,
-  matchInstance,
-  matchArrayShape,
-  matchTruthy,
-  matchFalsy,
-  matchArrayInstance,
-  matchBoolInstance,
-  matchFunctionInstance,
-  matchNumberInstance,
-  matchObjectInstance
-};
+exports.areSignatureAndTypeMatching = areSignatureAndTypeMatching;

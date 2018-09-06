@@ -26,53 +26,15 @@
     HOOK_MATCH_FN
   } = require ("./constants/signature.js").symbols;
 
-  const {predicates, matchMakers} = require ("./helpers.js");
-  const {
-    isArrayShapeOfCase,
-    isWildcardCase,
-    isTruthyCase,
-    isFalsyCase,
-    isFunctionCase,
-    isNumberCase,
-    isObjectCase,
-    isShapeOfCase,
-    isInstanceOfCase,
-    isArrayCase,
-    isBoolCase
-  } = predicates;
-  const {
-    matchShape,
-    matchInstance,
-    matchArrayShape,
-    matchTruthy,
-    matchFalsy,
-    matchArrayInstance,
-    matchBoolInstance,
-    matchFunctionInstance,
-    matchNumberInstance,
-    matchObjectInstance
-  } = matchMakers;
+  const areSignatureAndTypeMatching = require ("./helpers.js").areSignatureAndTypeMatching;
 
-  var match = function (subject, ...matches) {
+  const match = function (subject, ...matches) {
     for (let i = 0; i < matches.length; i++) {
       const {match, action} = matches [i];
 
-      if (
-        (isWildcardCase (match)) ||
-        (isTruthyCase (match) && matchTruthy (subject)) ||
-        (isFalsyCase (match) && matchFalsy (subject)) ||
-        (isArrayCase (match) && matchArrayInstance (subject)) ||
-        (isBoolCase (match) && matchBoolInstance (subject)) ||
-        (isFunctionCase (match) && matchFunctionInstance (subject)) ||
-        (isNumberCase (match) && matchNumberInstance (subject)) ||
-        (isObjectCase (match) && matchObjectInstance (subject)) ||
-        (isInstanceOfCase (match) && matchInstance (subject, match)) ||
-        (isArrayShapeOfCase (match) && matchArrayShape (subject, match)) ||
-        (isShapeOfCase (match) && matchShape (subject, match)) ||
-        (subject === match)
-      ) {
+      if (areSignatureAndTypeMatching (subject, match)) {
         action (subject);
-        return;
+        return true;
       }
     }
 
