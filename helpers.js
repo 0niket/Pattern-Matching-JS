@@ -103,4 +103,15 @@ const areSignatureAndTypeMatching = function (subject, match) {
   }
 };
 
-exports.areSignatureAndTypeMatching = areSignatureAndTypeMatching;
+const matchFnGenerator = function (signature) {
+  return function (param) {
+    const _fn = () => param;
+    _fn.signature = signature;
+    return _fn;
+  };
+};
+
+exports.helpers = {
+  areSignatureAndTypeMatching,
+  matchFnGenerator
+};

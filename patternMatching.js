@@ -26,7 +26,10 @@
     HOOK_MATCH_FN
   } = require ("./constants/signature.js").symbols;
 
-  const areSignatureAndTypeMatching = require ("./helpers.js").areSignatureAndTypeMatching;
+  const {
+    areSignatureAndTypeMatching,
+    matchFnGenerator
+  } = require ("./helpers.js").helpers;
 
   const match = function (subject, ...matches) {
     for (let i = 0; i < matches.length; i++) {
@@ -41,53 +44,47 @@
     throw "Match exausted";
   };
 
-  match.any = WILDCARD;
-  match.truthy = TRUTHY;
-  match.falsy = FALSY;
-  match.array = ARRAY;
-  match.bool = BOOL;
-  match.function = FUNCTION;
-  match.number = NUMBER;
-  match.object = OBJECT;
+  const types = {
+    any: WILDCARD,
+    truthy: TRUTHY,
+    falsy: FALSY,
+    array: ARRAY,
+    bool: BOOL,
+    function: FUNCTION,
+    number: NUMBER,
+    object: OBJECT,
 
-  // @TODO: Implement functionality for below identifiers
-  match.string = STRING;
-  match.symbol = SYMBOL;
-  match.domNode = DOM_NODE;
-  match.reactElement = REACT_ELEMENT;
+    // @TODO: Implement functionality for below identifiers
+    string: STRING,
+    symbol: SYMBOL,
+    domNode: DOM_NODE,
+    reactElement: REACT_ELEMENT,
 
-  const matchFnGenerator = function (signature) {
-    return function (param) {
-      const _fn = () => param;
-      _fn.signature = signature;
-      return _fn;
+    // Methods to do pattern matching
+    oneOf: matchFnGenerator (ONE_OF),
+    instanceOf: matchFnGenerator (INSTANCE_OF),
+    shape: matchFnGenerator (SHAPE),
+    arrayShape: matchFnGenerator (ARRAY_SHAPE),
+
+    // @TODO: Implement
+    oneOfType: matchFnGenerator (ONE_OF_TYPE),
+    objectOf: matchFnGenerator (OBJECT_OF),
+    arrayOf: matchFnGenerator (ARRAY_OF),
+    customMatch: matchFnGenerator (CUSTOM_MATCH)
+  };
+
+  // Constructor to create new instance of pattern matching by
+  // providing subject & corresponding matches.
+  const createClass = function (...matches) {
+    return {
+      match: function (subject) {
+        return match (subject, ...matches);
+      }
     };
   };
 
-  match.oneOf = matchFnGenerator (ONE_OF);
-
-  // @TODO: Implement
-  match.oneOfType = matchFnGenerator (ONE_OF_TYPE);
-
-  match.instanceOf = matchFnGenerator (INSTANCE_OF);
-
-  match.shape = matchFnGenerator (SHAPE);
-
-  match.arrayShape = matchFnGenerator (ARRAY_SHAPE);
-
-  // @TODO: Implement
-  match.objectOf = matchFnGenerator (OBJECT_OF);
-
-  // @TODO: Implement
-  match.arrayOf = matchFnGenerator (ARRAY_OF);
-
-  // @TODO: Implement
-  match.customMatch = matchFnGenerator (CUSTOM_MATCH);
-
-  // @TODO: Implement
-  // @TODO: hook becomes similar to any other in built API which can be
-  // invoked for a particular instance of the match function.
-  match.hookMatchFn = matchFnGenerator (HOOK_MATCH_FN);
-
-  exports.match = match;
+  exports.PatternMatch = {
+    createClass,
+    types
+  };
 } ());
