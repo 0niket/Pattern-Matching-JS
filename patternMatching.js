@@ -31,7 +31,7 @@
     matchFnGenerator
   } = require ("./helpers.js").helpers;
 
-  const match = function (subject, ...matches) {
+  const _match = function (subject, ...matches) {
     for (let i = 0; i < matches.length; i++) {
       const {match, action} = matches [i];
 
@@ -53,9 +53,9 @@
     function: FUNCTION,
     number: NUMBER,
     object: OBJECT,
+    string: STRING,
 
     // @TODO: Implement functionality for below identifiers
-    string: STRING,
     symbol: SYMBOL,
     domNode: DOM_NODE,
     reactElement: REACT_ELEMENT,
@@ -78,7 +78,7 @@
   const createClass = function (...matches) {
     return {
       match: function (subject) {
-        return match (subject, ...matches);
+        return _match (subject, ...matches);
       }
     };
   };

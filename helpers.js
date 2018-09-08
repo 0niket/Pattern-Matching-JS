@@ -85,6 +85,10 @@ const _matchObjectInstance = function (subject) {
   return _isObject (subject);
 };
 
+const _matchStringInstance = function (subject) {
+  return typeof subject === "string";
+};
+
 const areSignatureAndTypeMatching = function (subject, match) {
   const signature = match.signature || match;
 
@@ -96,6 +100,8 @@ const areSignatureAndTypeMatching = function (subject, match) {
     case BOOL: return _matchBoolInstance (subject);
     case FUNCTION: return _matchFunctionInstance (subject);
     case OBJECT: return _matchObjectInstance (subject);
+    case NUMBER: return _matchNumberInstance (subject);
+    case STRING: return _matchStringInstance (subject);
     case INSTANCE_OF: return _matchInstance (subject, match);
     case ARRAY_OF: return _matchArrayShape (subject, match);
     case OBJECT_OF: return _matchShape (signature, match);
