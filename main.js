@@ -33,10 +33,10 @@
 
   const _match = function (subject, ...matches) {
     for (let i = 0; i < matches.length; i++) {
-      const {match, action} = matches [i];
+      const {when, run} = matches [i];
 
-      if (areSignatureAndTypeMatching (subject, match)) {
-        action (subject);
+      if (areSignatureAndTypeMatching (subject, when)) {
+        run (subject);
         return true;
       }
     }
