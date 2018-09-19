@@ -24,14 +24,8 @@ const {
   CUSTOM_MATCH,
   HOOK_MATCH_FN
 } = require ("./constants/signature.js").symbols;
-
-const _isObject = function (obj) {
-  return Object.prototype.toString.call (obj) === "[object Object]";
-};
-
-const _isArray = function (arr) {
-  return arr instanceof Array;
-};
+const {arrayUtils} = require ("./utils/array.js");
+const {objectUtils} = require ("./utils/object.js");
 
 const _matchShape = function (subject, match) {
   // This code block assumes that each match is of type object.
@@ -66,7 +60,7 @@ const _matchTruthy = function (subject) {
 };
 
 const _matchArrayInstance = function (subject) {
-  return Array.isArray (subject);
+  return arrayUtils.isArray (subject);
 };
 
 const _matchBoolInstance = function (subject) {
@@ -82,7 +76,7 @@ const _matchNumberInstance = function (subject) {
 };
 
 const _matchObjectInstance = function (subject) {
-  return _isObject (subject);
+  return objectUtils.isObject (subject);
 };
 
 const _matchStringInstance = function (subject) {
