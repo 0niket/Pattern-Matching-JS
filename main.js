@@ -41,7 +41,7 @@
       }
     }
 
-    throw "Match exausted";
+    return false;
   };
 
   const types = {
