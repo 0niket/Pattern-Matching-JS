@@ -97,8 +97,8 @@ const areSignatureAndTypeMatching = function (subject, match) {
     case NUMBER: return _matchNumberInstance (subject);
     case STRING: return _matchStringInstance (subject);
     case INSTANCE_OF: return _matchInstance (subject, match);
-    case ARRAY_OF: return _matchArrayShape (subject, match);
-    case OBJECT_OF: return _matchShape (signature, match);
+    case ARRAY_SHAPE: return _matchArrayShape (subject, match);
+    case SHAPE: return _matchShape (subject, match);
     default: return (subject === match);
   }
 };

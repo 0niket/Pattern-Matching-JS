@@ -61,12 +61,12 @@
     reactElement: REACT_ELEMENT,
 
     // Methods to do pattern matching
-    oneOf: matchFnGenerator (ONE_OF),
     instanceOf: matchFnGenerator (INSTANCE_OF),
     shape: matchFnGenerator (SHAPE),
     arrayShape: matchFnGenerator (ARRAY_SHAPE),
 
     // @TODO: Implement
+    oneOf: matchFnGenerator (ONE_OF),
     oneOfType: matchFnGenerator (ONE_OF_TYPE),
     objectOf: matchFnGenerator (OBJECT_OF),
     arrayOf: matchFnGenerator (ARRAY_OF),
