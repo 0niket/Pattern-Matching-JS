@@ -26,29 +26,21 @@ const {
 } = require ("./constants/signature.js").symbols;
 const {arrayUtils} = require ("./utils/array.js");
 const {objectUtils} = require ("./utils/object.js");
-
-const _matchShape = function (subject, match) {
-  // This code block assumes that each match is of type object.
-  // This shallowly verifies the match with subject
-  // Code assumes that total number of keys in subject are same
-  // as total number of keys in match.
-  const object = match ();
-  return Object.keys (subject)
-               .every ((key) => subject [key] === object [key]);
-};
+const _ = require ("underscore");
 
 const _matchInstance = function (subject, match) {
   const className = match ();
   return subject instanceof className;
 };
 
+const _matchShape = function (subject, match) {
+  const object = match ();
+  return _.isEqual (subject, object);
+};
+
 const _matchArrayShape = function (subject, match) {
-  // This code block assumes that each match is instance of Array.
-  // This shallowly verifies the match with subject.
-  // Code assumes that total number of keys in subject are same
-  // as total number of keys in match.
   const array = match ();
-  return subject.every ((val, i) => val === array [i]);
+  return _.isEqual (subject, array);
 };
 
 const _matchFalsy = function (subject) {
